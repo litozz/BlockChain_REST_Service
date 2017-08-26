@@ -8,7 +8,7 @@ To use this BlockChain REST service, follow this guide:
 2. Next step is clone BigChainDB server official repo: https://github.com/bigchaindb/bigchaindb
 and overwrite the `docker-compose.yml` with the one in my repo. Now you have ready BigChainDB server.
 
-3. In your work directory, you must have the official BigchainDB repo overwrited and this repo, as follows:
+3. In your work directory, you must have the official BigChainDB server repo overwrited and this repo, as follows:
     ```
     Your_work_directory
     |____BlockChain_Rest_Service
