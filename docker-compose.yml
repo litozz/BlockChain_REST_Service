@@ -10,7 +10,7 @@ services:
       - /media/data/data/db:/data/db
     #hostname: "mdb_master"
     #networks:
-    #  - bi4chain-cluster-network
+    #  - cluster-network
     container_name: mdb_master
     restart: unless-stopped
 
@@ -58,7 +58,7 @@ services:
 #      - /media/data/dataS1/db:/data/db
     #hostname: "mdb_slave_1"
     #networks:
-    #  - bi4chain-cluster-network
+    #  - cluster-network
 #    container_name: mdb_slave_1
     #restart: unless-stopped
 
@@ -71,7 +71,7 @@ services:
 #      - /media/data/dataS2/db:/data/db
     #hostname: "mdb_slave_2"
     #networks:
-    #  - bi4chain-cluster-network
+    #  - cluster-network
 #    container_name: mdb_slave_2
     #restart: unless-stopped
 
@@ -89,4 +89,4 @@ services:
 
 
 #networks:
-#  bi4chain-cluster-network:
+#  cluster-network:
