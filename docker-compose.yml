@@ -1,0 +1,92 @@
+version: '2'
+
+services:
+  mdb_master:
+    image: mongo:3.4.3
+    ports:
+      - "27017:27017"
+    command: mongod --replSet bigchain-rs
+    volumes:
+      - /media/data/data/db:/data/db
+    #hostname: "mdb_master"
+    #networks:
+    #  - bi4chain-cluster-network
+    container_name: mdb_master
+    restart: unless-stopped
+
+
+  bdb:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+      args:
+        backend: mongodb
+    volumes:
+      - ./bigchaindb:/usr/src/app/bigchaindb
+      - ./tests:/usr/src/app/tests
+      - ./docs:/usr/src/app/docs
+      - ./k8s:/usr/src/app/k8s
+      - ./setup.py:/usr/src/app/setup.py
+      - ./setup.cfg:/usr/src/app/setup.cfg
+      - ./pytest.ini:/usr/src/app/pytest.ini
+      - ./tox.ini:/usr/src/app/tox.ini
+      - ../cryptoconditions:/usr/src/app/cryptoconditions
+    environment:
+      BIGCHAINDB_DATABASE_BACKEND: mongodb
+      BIGCHAINDB_DATABASE_HOST: mdb_master
+      BIGCHAINDB_DATABASE_PORT: 27017
+      BIGCHAINDB_SERVER_BIND: 0.0.0.0:9984
+      BIGCHAINDB_WSSERVER_HOST: 0.0.0.0
+#      BIGCHAINDB_DATABASE_REPLICASET: bigchain-rs
+    ports:
+      - "0.0.0.0:9984:9984"
+    #command: bigchaindb add-replicas mdb_slave_1:27017;bigchaindb add-replicas mdb_slave_2:27017;bigchaindb start
+    command: bigchaindb start
+    restart: unless-stopped
+
+
+
+
+
+     
+#  mdb_slave_1:
+#    image: mongo:3.4.3
+#    ports:
+#      - "30002:27017"
+#    command: mongod --replSet bigchain-rs
+#    volumes:
+#      - /media/data/dataS1/db:/data/db
+    #hostname: "mdb_slave_1"
+    #networks:
+    #  - bi4chain-cluster-network
+#    container_name: mdb_slave_1
+    #restart: unless-stopped
+
+#  mdb_slave_2:
+#    image: mongo:3.4.3
+#    ports:
+#      - "30003:27017"
+#    command: mongod --replSet bigchain-rs
+#    volumes:
+#      - /media/data/dataS2/db:/data/db
+    #hostname: "mdb_slave_2"
+    #networks:
+    #  - bi4chain-cluster-network
+#    container_name: mdb_slave_2
+    #restart: unless-stopped
+
+#  bcdb_service:
+#    container_name: bcdb_service
+#    image: bcdb_service
+#    volumes:
+#      - ../bcdb_service/src:/bcdb_service
+#    ports:
+#      - '0.0.0.0:5001:11234'
+#    command: python3 /bcdb_service/app.py
+#    restart: unless-stopped
+
+
+
+
+#networks:
+#  bi4chain-cluster-network:
